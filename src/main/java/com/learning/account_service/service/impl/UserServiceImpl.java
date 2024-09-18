@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService {
     public static final String USER_NOT_FOUND_ERROR_MESSAGE = "User not found with the userId: {}";
     public static final String USER_ALREADY_EXISTS_ERROR_MESSAGE = "User already exists with the userEmail: {}";
     private UserRepository userRepository;
-
     private UserMapper userMapper;
 
     @Override
@@ -42,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(CreateUserDTO userToCreateDTO) {
+        findUserByEmail(userToCreateDTO.email());
         UserEntity userToCreateEntity = userMapper.fromCreateUserDTO(userToCreateDTO);
         UserEntity createdUserEntity = userRepository.save(userToCreateEntity);
         return userMapper.toDTO(createdUserEntity);
@@ -49,12 +49,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUser(UUID userId, UpdateUserDTO updateDTO) {
-        return null;
+        UserEntity targetUserToUpdateEntity = findUserById(userId);
+        userMapper.updateUserFromDTO(updateDTO, targetUserToUpdateEntity);
+        return userMapper.toDTO(userRepository.save(targetUserToUpdateEntity));
     }
 
     @Override
     public boolean deleteUser(UUID userId) {
-        return false;
+        UserEntity userToDeleteEntity = findUserById(userId);
+        userRepository.delete(userToDeleteEntity);
+        return true;
     }
 
     /**
@@ -78,16 +82,15 @@ public class UserServiceImpl implements UserService {
      * Find user referenced by email.
      *
      * @param userEmail reference.
-     * @return user.
      */
-    UserEntity findUserByEmail(String userEmail) {
-        return userRepository.findByEmailIgnoreCase(userEmail)
-                .orElseThrow(() -> {
-                    log.info(USER_ALREADY_EXISTS_ERROR_MESSAGE, userEmail);
-                    return new ConflictException(
-                            UserExceptionEnums.USER_ALREADY_EXISTS.getValue(),
-                            UserExceptionEnums.USER_EXCEPTION_CODE.getValue()
-                    );
-                });
+    void findUserByEmail(String userEmail) {
+        boolean exists = userRepository.findByEmailIgnoreCase(userEmail).isPresent();
+        if (exists) {
+            log.info(USER_ALREADY_EXISTS_ERROR_MESSAGE, userEmail);
+            throw new ConflictException(
+                    UserExceptionEnums.USER_ALREADY_EXISTS.getValue(),
+                    UserExceptionEnums.USER_EXCEPTION_CODE.getValue()
+            );
+        }
     }
 }
