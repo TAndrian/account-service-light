@@ -1,13 +1,14 @@
-package com.learning.account_service.controller.resource.v1;
+package com.learning.account_service.controller.resource.v1.user;
 
 import com.learning.account_service.dto.CreateUserDTO;
 import com.learning.account_service.dto.UpdateUserDTO;
 import com.learning.account_service.dto.UserDTO;
 import com.learning.account_service.service.UserService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,10 +33,11 @@ import static com.learning.account_service.controller.resource.v1.ResourcePath.U
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
 )
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Validated
 public class UserResourceController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping(USERS)
     @ResponseStatus(HttpStatus.OK)

@@ -1,18 +1,17 @@
 package com.learning.account_service.dto;
 
 import com.learning.account_service.business.enums.Role;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 public record CreateUserDTO(
-        @NotBlank(message = "Firstname must be provided.")
+        @NotEmpty(message = "Firstname is required.")
         String firstname,
-        @NotBlank(message = "Lastname must be provided.")
+        @NotEmpty(message = "Lastname is required.")
         String lastname,
-        @NotBlank(message = "Email must be provided.")
+        @NotEmpty(message = "Email is required.")
         String email,
-        @NotBlank(message = "Password must be provided.")
+        @NotEmpty(message = "Password is required.")
         String password,
-        @NotBlank(message = "Role must be provided.")
         Role role
 ) {
 }
