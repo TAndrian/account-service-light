@@ -19,6 +19,7 @@ public class UserMocks {
     public static final String SARAH = "Sarah";
     public static final String CONNOR = "Connor";
     public static final String JOHN_CONNOR_EMAIL = "john.connor@test.com";
+    public static final String SARAH_CONNOR_EMAIL = "sarah.connor@test.com";
     public static final String PASSWORD = "PASSWORD";
 
     public static final List<UserEntity> MOCK_USER_ENTITIES = UserMocks.userEntities();
@@ -30,7 +31,6 @@ public class UserMocks {
     public static final UpdateUserDTO MOCK_UPDATE_USER_DTO = UserMocks.updateUserDTO();
     public static final UserDTO MOCK_UPDATED_USER_DTO = UserMocks.updatedUserDTO();
     public static final CreateUserDTO MOCK_INVALID_USER_TO_CREATE_DTO = UserMocks.invalidCreateUserDTO();
-
 
     public static UserEntity userEntity() {
         return UserEntity.builder()
@@ -108,6 +108,28 @@ public class UserMocks {
                 SARAH,
                 CONNOR,
                 JOHN_CONNOR_EMAIL,
+                Role.USER
+        );
+    }
+
+    /* INTEGRATION TESTS DATA */
+
+    public static UserEntity johnConnorEntity() {
+        return UserEntity.builder()
+                .firstname(JOHN)
+                .lastname(CONNOR)
+                .email(JOHN_CONNOR_EMAIL)
+                .password(PASSWORD)
+                .role(Role.USER)
+                .build();
+    }
+
+    public static CreateUserDTO createSarahConnorDTO() {
+        return new CreateUserDTO(
+                SARAH,
+                CONNOR,
+                SARAH_CONNOR_EMAIL,
+                PASSWORD,
                 Role.USER
         );
     }
