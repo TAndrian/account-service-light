@@ -1,5 +1,8 @@
 package com.learning.account_service.controller.resource.v1;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class ResourcePath {
 
     public static final String BASE_URL = "/api/v1";
@@ -9,8 +12,4 @@ public class ResourcePath {
     public static final String USER_ID = "/{userId:" + UUID_PATTERN + "}";
 
     public static final String PATH_USER_ID = USER + USER_ID;
-
-    private ResourcePath() {
-        throw new IllegalStateException("Utility class");
-    }
 }
