@@ -42,13 +42,13 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TAndrian_we-go-jim
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TAndrian_account-service-light
 
     - name: Check Quality Gate status
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_CLOUD_TOKEN }}
       run: |
-          STATUS=$(curl -s "https://sonarcloud.io/api/qualitygates/project_status?projectKey=TAndrian_we-go-jim" -u $SONAR_TOKEN:)
+          STATUS=$(curl -s "https://sonarcloud.io/api/qualitygates/project_status?projectKey=TAndrian_account-service-light" -u $SONAR_TOKEN:)
           echo "Quality Gate status: $STATUS"
           if [[ "$STATUS" != *"\"status\":\"OK\""* ]]; then
             echo "Quality Gate failed"
